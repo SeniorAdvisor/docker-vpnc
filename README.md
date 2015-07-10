@@ -47,6 +47,16 @@ $ curl 'https://api.ipify.org?format=json'
 {"ip":"52.2.53.130"}
 ```
 
+**Option Explanations**
+
+- `--rm`: Removes the container after it's done executing
+- `--privileged`: Allows the container to create and make use of the `tun` device
+- `--env-file`: Loads up the contents of `.env` into the container's environment
+- `--dns`: Make use of Google's DNS servers for name resolution within the container
+- `/sbin/my_init`: The init system provided by `phusion/baseimage-docker`
+
+Everything after `--` is the command we want to run within the container, in addition to the services managed by `my_init.`
+
 **Note**: If you get an error like the one below, it is a [known bug](https://bugs.launchpad.net/ubuntu/+source/vpnc/+bug/228365) with `vpnc`:
 
 ```
