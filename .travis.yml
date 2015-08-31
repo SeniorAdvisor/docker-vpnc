@@ -1,0 +1,31 @@
+sudo: required
+
+language: bash
+
+services:
+  - docker
+
+install:
+  - docker build -t quay.io/${TRAVIS_REPO_SLUG:0:6}/${TRAVIS_REPO_SLUG:14}:${TRAVIS_COMMIT:0:7} .
+
+script:
+  - "/bin/true"
+
+before_deploy:
+  - docker login -e . -p "${QUAY_PASSWORD}" -u "${QUAY_USER}" quay.io
+
+deploy:
+  - provider: script
+    script: ".travis/deploy.sh"
+    on:
+      repo: azavea/docker-vpnc
+      branch: develop
+  - provider: script
+    script: ".travis/deploy.sh"
+    on:
+      repo: azavea/docker-vpnc
+      tags: true
+
+notifications:
+  slack:
+    secure: gFZZEV5AxC7Se82u+tSnVMJ4MGXM0jvDi5QQYJdHQSaOxsKOHefxkG3T21XleEG+fOCC15t38UdBUnUpC2nRufY9bM/yXQSQTBDMfV/LWNBVxh83YNmbOgJPcZtZdyctcMnXnyP3pyeDXvB6LHRsiGjrLW+SpNmF02zviW6JH72lifbHSuYlPiwLve2EJ2wnT73eLmT1vYxOF9EZSzN+hCqDwLT8VywsQS2DHNdxsLwM+Rzze6W9VqxpZ2flrYQYGl63jOcXa8muMaPjQFwGdjqVh6qxYDcrPkF5ukI7sOJrvIXmuwhu7Bi3FJY815qBt88llrPB1g4EhD8QGhOVhT3BPUUl8cpdq6YQwipvpSLPbTSuxuJAweveVfzKh3Zl4VMPAclGSWhi+nHqdT5iuvFx8LKy+ZxzTZNG0QLB4XBr8Fwms5n1NMGG0hZqbRclbuoOScSlhwfjubAEVSXf+nVe1dT3UsSvmV/fDFr8drWyzX973K6XAxghsGXpAGEXp5NsxSDIa+8jjyH2KJsEW5pFQL/hC/FpJ8YG65up4uiEpT6cGTUVwLmfgTrNNfgjwsJxKhQeDB6g5kXvSIqsPPE4NpVHfheFuYYFD27E8R/oKv2kgcjqP6GXlizKcgS7iO2An0dXNKDoxl4YDdclZDJ2jGUf9U4Ana6KyloOgo0=
