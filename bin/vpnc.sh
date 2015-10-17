@@ -10,4 +10,12 @@ Domain ${VPNC_DOMAIN}
 DPD idle timeout (our side) 0
 EOF
 
+cat > /sql.rb <<EOF
+require "rubygems"
+require "tiny_tds"
+client = TinyTds::Client.new username: 'Amypo', password: 'Genericpass4you', host: '10.50.1.111', port:'1433', appname:'elitest', database: 'EDW'
+puts client.active?
+EOF
+
 exec /usr/sbin/vpnc default --no-detach --non-inter
+exec /usr/bin/ruby /sql.rb
