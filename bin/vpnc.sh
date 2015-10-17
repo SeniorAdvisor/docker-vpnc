@@ -13,7 +13,7 @@ EOF
 cat > /sql.rb <<EOF
 require "rubygems"
 require "tiny_tds"
-client = TinyTds::Client.new username: 'Amypo', password: 'Genericpass4you', host: '10.50.1.111', port:'1433', appname:'elitest', database: 'EDW'
+client = TinyTds::Client.new username: '${SQL_USER}', password: '${SQL_PASSWORD}', host: '${SQL_HOST}', port:'${SQL_PORT}', appname:'${SQL_APPNAME}', database: '${SQL_DATABASE}'
 puts client.active?
 EOF
 
